@@ -18,6 +18,9 @@ def login_view(request):
         if data["user"] is None:
             return Response({"error": {"message": "Credentials are invalid"}}, 404)
 
+        if data["user"].check_password(request.data["password"]) is False:
+            return Response({"error": {"message": "Credentials are invalid"}}, 404)
+
         token = get_token_by_user_service(data["user"])
 
         return Response({"token": token["data"].key}, 201)
