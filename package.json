@@ -1,0 +1,12 @@
+{
+  "name": "allpetsenior-api",
+  "version": "1.0.0",
+  "description": "JSON api for allpetsenior",
+  "main": "\"\"",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "api:dev": "source .venv/bin/activate && python manage.py runserver"
+  },
+  "author": "github.com/euliveiras",
+  "license": "ISC"
+}
