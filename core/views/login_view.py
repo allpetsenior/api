@@ -13,12 +13,12 @@ from v0.errors.app_error import App_Error
 def login_view(request):
     try:
         data = get_user_service(
-            request.data)
+            {"email": request.data["email"]})
 
         if data["user"] is None:
             return Response({"error": {"message": "Credentials are invalid"}}, 404)
 
-        if data["user"].check_password(request.data["password"]) is False:
+        if data["user"].check_password(request.data["password"]) == False:
             return Response({"error": {"message": "Credentials are invalid"}}, 404)
 
         token = get_token_by_user_service(data["user"])

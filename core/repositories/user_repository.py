@@ -15,6 +15,8 @@ class User_Repository():
 
     def create_user(self, data):
         try:
+            data["password"] = make_password(data["password"])
+
             return User.objects.create(**data)
 
         except IntegrityError as e:
