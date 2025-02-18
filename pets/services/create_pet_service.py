@@ -9,10 +9,6 @@ def validate(data):
         raise App_Error("pet.name is required", 400)
     if "race" not in data:
         raise App_Error("pet.race is required", 400)
-    if "color" not in data:
-        raise App_Error("pet.color is required", 400)
-    if "size" not in data:
-        raise App_Error("pet.size is required", 400)
     if "activity" not in data:
         raise App_Error("pet.activity is required", 400)
     if "health_problem" not in data:

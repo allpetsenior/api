@@ -5,7 +5,8 @@
   "main": "\"\"",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "api:dev": "source .venv/bin/activate && python manage.py runserver"
+    "api:dev": "source .venv/bin/activate && python manage.py runserver",
+    "shell": "source .venv/bin/activate && python manage.py shell"
   },
   "author": "github.com/euliveiras",
   "license": "ISC"
