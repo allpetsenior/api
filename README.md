@@ -39,6 +39,6 @@ pip install -r requirements.txt
 - rodar a api em desenvolvimento
 
 ```bash
-npm run api:dev
+python manage.py runserver
 ```
 
