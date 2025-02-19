@@ -10,7 +10,7 @@
 
 - clonar repositório
 ```bash
-git clone https://github.com/allpetsenior/allpetsenior-rn-app.git
+git clone https://github.com/allpetsenior/api.git
 ```
 
 - mudar para o repositório criado
