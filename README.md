@@ -3,7 +3,6 @@
 ## requisitos
 
 - versão mínima do python: Python 3.8
-- versão mínima do nodeJS: 23
 - git instalado na máquina
 
 ## instalação
