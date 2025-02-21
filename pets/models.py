@@ -3,6 +3,15 @@ from django.db import models
 from core.models import User
 
 
+class PetRace(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    name = models.CharField(max_length=200)
+    specie = models.CharField(max_length=200)
+    size = models.CharField(max_length=200, null=True)
+    min_weight = models.DecimalField(max_digits=5, decimal_places=2)
+    max_weight = models.DecimalField(max_digits=5, decimal_places=2)
+
+
 class Pet(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
