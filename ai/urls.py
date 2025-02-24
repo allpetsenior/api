@@ -1,6 +1,7 @@
 from django.urls import path
-from ai.views.chat_view import ChatView
+from ai.views.prompt_pet_recommendations_view import PromptPetRecommendations
 
 urlpatterns = [
-    path("/chat", ChatView.as_view()),
+    path("/prompt/pet/recommendations", PromptPetRecommendations.as_view()),
+
 ]
