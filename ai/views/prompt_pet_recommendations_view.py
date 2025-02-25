@@ -63,7 +63,7 @@ class PromptPetRecommendations(APIView):
 
                 ))
 
-            return Response({"health": futures["health"].result(), "nutrition": futures["nutrition"].result(), "activity": futures["activity"].result()})
+            return Response({"data": {"health": futures["health"].result(), "nutrition": futures["nutrition"].result(), "activity": futures["activity"].result()}})
 
         except App_Error as e:
             traceback.print_exception(e)
