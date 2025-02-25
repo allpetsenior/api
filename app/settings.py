@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 
 load_dotenv()
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,6 +34,9 @@ DEBUG = bool(os.getenv("DEBUG", 0))
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(";")
 
 # Application definition
+CHATBOT_API_KEY = os.getenv("CHATBOT_API_KEY", None)
+CHATBOT_ID = os.getenv("CHATBOT_ID", None)
+CHATBOT_BASE_URL = os.getenv("CHATBOT_BASE_URL", None)
 
 ASGI_APPLICATION = "app.asgi.application"
 
