@@ -1,16 +1,16 @@
-import os
 import requests
 import json
+from app.settings import CHATBOT_API_KEY, CHATBOT_ID, CHATBOT_BASE_URL
 
 
 class Chatbot():
     def __init__(self):
-        api_key = os.getenv("CHATBOT_API_KEY", None)
-        chatbot_id = os.getenv("CHATBOT_ID", None)
-        chatbot_base_url = os.getenv("CHATBOT_BASE_URL", None)
+        api_key = CHATBOT_API_KEY
+        chatbot_id = CHATBOT_ID
+        chatbot_base_url = CHATBOT_BASE_URL
 
         if api_key is None:
-            raise Exception("CHATBOT_SECRET_KEY is None")
+            raise Exception("CHATBOT_API_KEY is None")
         if chatbot_base_url is None:
             raise Exception("CHATBOT_BASE_URL is None")
         if chatbot_id is None:
