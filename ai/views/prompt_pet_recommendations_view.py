@@ -10,11 +10,29 @@ from pets.serializers.pet_serializer import PetSerializer
 
 chatbot = Chatbot()
 
-message_nutrition = "Analise os dados de cadastro fornecidos sobre o pet (espécie, gênero, raça, idade, peso, problemas de saúde e medicações diárias), e crie uma recomendação em até mil caracteres relacionada à nutrição, dieta e peso visando promover a saúde preventiva e proativa do animal para um envelhecimento saudável. A recomendação deve ser detalhada e prática, que aborde aspectos específicos da alimentação e cuidados nutricionais com base nas características do pet. Use uma sugestão de ação que o tutor possa fazer em casa, e outra no veterinário. A recomendação deve respeitar o contexto cadastral fornecido, mantendo um tom empático e educativo. Não generalize; personalize as orientações com base nos dados disponíveis."
+message_nutrition = """Com base nos dados anteriores do pet, crie uma recomendação personalizada (máx. 1000 caracteres) sobre nutrição, dieta e peso, visando promover um envelhecimento saudável. A recomendação deve ser detalhada, prática e específica, abordando aspectos nutricionais relevantes para o pet.
+1. Utilize somente o nome do pet, sem citar outras informações cadastrais.
+2. Inclua uma ação que o tutor possa realizar em casa para melhorar a alimentação ou controle de peso.
+3. Inclua uma ação que o veterinário deve realizar, como exames ou ajustes dietéticos.
+4. Não mencione nomes comerciais de medicamentos ou suplementos, substituindo-os por descrições funcionais.
+"""
 
-message_activity = "Enriquecimento ambiental e gerenciamento de estresse (socialização com outros pets e familiares, exercícios físicos e cognitivos, passeio). Analise os dados de cadastro fornecidos sobre o pet (espécie, gênero, raça, idade, peso, problemas de saúde e medicações diárias), e crie uma recomendação personalizada em até mil caracteres relacionada a enriquecimento ambiental e gerenciamento de estresse. As orientações devem considerar socialização, exercícios físicos e cognitivos, e passeios, visando o envelhecimento saudável do pet. A recomendação deve ser detalhada e prática que aborde aspectos específicos da alimentação e cuidados nutricionais com base nas características do pet. Use uma sugestão de ação que o tutor possa fazer em casa, e outra no veterinário. Condições: personalize as sugestões com base nas informações fornecidas, evitando generalizações; as orientações devem ser realistas e alinhadas às condições de saúde e limitações do pet; adote um tom empático, educativo e motivador para engajar o tutor."
+message_activity = """Com base nos dados anteriores do pet, crie uma recomendação personalizada (máx. 1000 caracteres) sobre enriquecimento ambiental e gerenciamento de estresse, considerando socialização, exercícios físicos e cognitivos, e passeios para um envelhecimento saudável e longevidade ativa. Considere predisposições da raça, idade e possíveis doenças secundárias.
+1. Não inclua recomendações sobre dieta/nutrição.
+2. Utilize o nome do pet, sem mencionar outras informações cadastrais.
+3. Inclua uma ação para o tutor realizar em casa, como brinquedos interativos, passeios ou técnicas de socialização, uso de tapetes antiderrapantes, rampas, camas suspensas e acolchoadas etc.
+4. Inclua uma ação para o veterinário, como terapias comportamentais ou atividades supervisionadas, apenas se houver necessidade.
+5. Não mencione nomes comerciais de medicamentos ou suplementos, substituindo-os por descrições funcionais.
+"""
 
-message_health = "Analise os dados de cadastro fornecidos sobre o pet (espécie, gênero, raça, idade, peso, problemas de saúde e medicações diárias), e crie uma recomendação personalizada em até mil caracteres relacionada aos cuidados da saúde preventivos e proativos voltados ao envelhecimento saudável. Considere as predisposições da raça, idade, e doenças secundárias. Para esta recomendação, não use exemplos de dieta e nutrição. Não use exemplos de enriquecimento ambiental e adaptações em casa. Use uma recomendação de ação que o tutor possa fazer em casa, e outra no veterinário. A recomendação deve ser detalhada e prática que aborde aspectos específicos da alimentação e cuidados nutricionais com base nas características do pet. Use uma sugestão de ação que o tutor possa fazer em casa, e outra no veterinário. Condições: use as informações fornecidas para criar recomendações específicas, evitando generalizações; as sugestões devem priorizar o envelhecimento saudável e as necessidades individuais do pet; mantenha o tom empático e educativo, reforçando o cuidado preventivo."
+message_health = """Com base nos dados anteriores do pet, crie uma recomendação personalizada (máx. 1000 caracteres) sobre cuidados preventivos e proativos voltados para um envelhecimento saudável. Considere predisposições da raça, idade e doenças secundárias.
+1. Não inclua recomendações sobre dieta/nutrição, enriquecimento ambiental ou adaptações em casa.
+2. Utilize somente o nome do pet, sem citar outras informações cadastrais.
+3. A recomendação deve ser detalhada, prática e específica, abordando aspectos de saúde preventiva e monitoramento de doenças comuns em pets idosos.
+4. Inclua uma ação para o tutor aplicar em casa para uma melhor qualidade de vida e saúde do pet.
+5. Inclua uma ação para o veterinário, como exames regulares ou tratamentos preventivos, apenas se houver a necessidade.
+6. Não mencione nomes comerciais de medicamentos ou suplementos, substituindo-os por descrições funcionais.
+"""
 
 
 def format_prompt(message, pet):
