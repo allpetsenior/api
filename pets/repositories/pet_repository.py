@@ -12,5 +12,8 @@ class PetRepository():
         return Pet.objects.get(**data)
 
     def create_many_pets(self, data):
-        return Pet.objects.bulk_create([Pet(**item) for item in data])
+        pets = []
+        for item in data:
+            pets.append(Pet(**item))
 
+        return Pet.objects.bulk_create(pets)

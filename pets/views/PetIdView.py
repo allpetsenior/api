@@ -14,10 +14,10 @@ class PetIdView(APIView):
         try:
             data_to_insert = request.data["data"]
             query = {"id": pet_id, "tutor": request.user}
-
             updated_pet = update_pet_service(query, data_to_insert)
 
             if "error" in updated_pet:
+                print(updated_pet["error"])
                 return Response({"error": {"message": str(updated_pet["error"])}}, 500)
 
             return Response({"data": updated_pet["data"]}, 200)
