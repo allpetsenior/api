@@ -1,9 +1,16 @@
 from pets.models import Pet
 from v0.errors.app_error import App_Error
+from pets.repositories.pet_race_repository import PetRaceRepository
+
+pet_race_repo = PetRaceRepository()
 
 
 def update_pet_service(query, data):
     try:
+        if "race" in data:
+            race = pet_race_repo.get_race({"id": data["race"]["id"]})
+            data["race"] = race
+
         affected_rows = Pet.objects.filter(**query).update(**data)
 
         if affected_rows == 0:
