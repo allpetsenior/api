@@ -8,7 +8,7 @@ pet_race_repo = PetRaceRepository()
 def update_pet_service(query, data):
     try:
         if "race" in data:
-            race = pet_race_repo.get_race({"id": data["race"]["id"]})
+            race = pet_race_repo.get_race({"name": data["race"]["name"]})
             data["race"] = race
 
         affected_rows = Pet.objects.filter(**query).update(**data)
