@@ -7,6 +7,7 @@ from pets.serializers.pet_serializer import PetSerializer
 from pets.services.create_many_pets_service import create_many_pets_service
 from pets.services.get_pets_service import get_pets_service
 from v0.errors.app_error import App_Error
+from pets.services.get_pet_race_service import get_pet_race_service
 
 
 class IndexView(APIView):
@@ -15,7 +16,7 @@ class IndexView(APIView):
     def post(self, request):
         try:
             pet = create_many_pets_service(
-                [{**item, "tutor": request.user} for item in request.data])
+                [{**item, "tutor": request.user, "race": get_pet_race_service({"name": item["race"]["name"], "specie": item["specie"]})["data"]} for item in request.data])
 
             serializer = PetSerializer(pet["data"], many=True)
 
