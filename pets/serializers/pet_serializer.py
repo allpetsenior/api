@@ -1,10 +1,17 @@
 from rest_framework import serializers
 
 
+class PetRaceSerializer(serializers.Serializer):
+    id = serializers.CharField(max_length=200)
+    specie = serializers.CharField(max_length=200)
+    name = serializers.CharField(max_length=200)
+    alias = serializers.CharField(max_length=200)
+
+
 class PetSerializer(serializers.Serializer):
     id = serializers.CharField(max_length=200)
     name = serializers.CharField(max_length=200)
-    race = serializers.CharField(max_length=200)
+    race = PetRaceSerializer()
     color = serializers.CharField(max_length=200)
     size = serializers.CharField(max_length=200)
     activity = serializers.CharField(max_length=200)
