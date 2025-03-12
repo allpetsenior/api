@@ -2,6 +2,7 @@ import traceback
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from core.serializers import UserSerializer
 from core.services.create_user_service import create_user_service
 from core.services.get_user_service import get_user_service
 from core.services.get_token_by_user import get_token_by_user_service
@@ -20,10 +21,10 @@ def create_user_view(request):
             return Response({"error": {"message": "User already exists"}}, 405)
 
         data = create_user_service(request.data)
-
         token = get_token_by_user_service(data["user"])
+        user_serializer = UserSerializer(data["user"])
 
-        return Response({"token": token["data"].key}, 201)
+        return Response({"token": token["data"].key, "user": user_serializer.data}, 201)
 
     except App_Error as e:
         traceback.print_exception(e)
