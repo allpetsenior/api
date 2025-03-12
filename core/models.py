@@ -22,6 +22,17 @@ class User(AbstractUser):
     password = models.CharField(max_length=200)
     birth_date = models.DateTimeField()
 
+    class Gender(models.TextChoices):
+        male = 'MALE', _('MALE')
+        female = 'FEMALE', _('FEMALE')
+        other = 'OTHER', _('OTHER')
+
+    gender = models.CharField(
+        max_length=10,
+        choices=Gender.choices,
+        default=Gender.male
+    )
+
     class State(models.TextChoices):
         RJ = 'RJ', _('RIO DE JANEIRO')
 
