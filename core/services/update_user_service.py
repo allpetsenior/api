@@ -6,7 +6,7 @@ user_repo = User_Repository()
 
 def validate(data):
     if "id" in data:
-        raise App_Error("user.id is not allowed to be updated", 400)
+        del data["id"]
 
 
 def update_user_service(query, data):

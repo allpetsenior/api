@@ -46,3 +46,16 @@ class IndexView(APIView):
         except Exception as e:
             traceback.print_exception(e)
             return Response({"error": {"message": str(e)}}, 500)
+
+    def delete(self, request):
+        try:
+            request.user.delete()
+
+            return Response(None, 200)
+
+        except App_Error as e:
+            traceback.print_exception(e)
+            return Response(e.toHttp(), e.status)
+        except Exception as e:
+            traceback.print_exception(e)
+            return Response({"error": {"message": str(e)}}, 500)
