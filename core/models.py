@@ -53,7 +53,7 @@ class Invite(models.Model):
     verbose_name_plural = 'Convites'
 
   email = models.EmailField(unique=True)
-  created_at = models.DateTimeField(auto_created=True)
+  created_at = models.DateTimeField(auto_now_add=True)
   user = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
 
 
@@ -68,8 +68,7 @@ class Feedback(models.Model):
     MEH = 3, _('Normal')
     FROWN = 1, _('Insatisfeito')
 
-  email = models.EmailField(unique=True)
   rating = models.PositiveSmallIntegerField(choices=Reaction.choices)
   text = models.TextField()
-  created_at = models.DateTimeField(auto_created=True)
+  created_at = models.DateTimeField(auto_now_add=True)
   user = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
