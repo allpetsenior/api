@@ -7,7 +7,7 @@ from core.views.index_view import IndexView
 from core.views.login_view import login_view
 
 urlpatterns = [
-    path("/user", IndexView),
+    path("/user", IndexView.as_view()),
     path("/login", login_view),
     path("/invites", create_invite_view),
     path("/feedbacks", create_feedback_view),
