@@ -28,3 +28,10 @@ class User_Repository():
             return User.objects.get(**data)
         except User.DoesNotExist:
             return None
+
+    def update(self, query, data):
+        if "password" in data:
+            password = make_password(data["password"])
+            data["password"] = password
+
+        return User.objects.filter(**query).update(**data)
