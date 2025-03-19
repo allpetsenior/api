@@ -11,16 +11,17 @@ from app.settings import EMAIL_HOST_USER, LINK_FORGOT_PASSWORD
 @permission_classes([])
 def forgot_password_view(request):
     try:
+        email = request.query_params.get("email")
 
         html_content = render_to_string(
             "emails/forgot_password.html",
-            {'user_name': request.user.name, 'link_forgot_password': LINK_FORGOT_PASSWORD
+            {'link_forgot_password': LINK_FORGOT_PASSWORD
              }
         )
 
         text_content = render_to_string(
             "emails/forgot_password.txt",
-            {'user_name': request.user.name, 'link_forgot_password': LINK_FORGOT_PASSWORD
+            {'link_forgot_password': LINK_FORGOT_PASSWORD
              }
 
         )
@@ -29,7 +30,7 @@ def forgot_password_view(request):
             "AllPetSenior - Recuperar senha",
             text_content,
             EMAIL_HOST_USER,
-            [request.user.email],
+            [email],
             html_message=html_content,
         )
 
