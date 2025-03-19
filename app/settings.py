@@ -53,6 +53,15 @@ REST_FRAMEWORK = {
     ]
 }
 
+# EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", default="")
+EMAIL_HOST = os.getenv("EMAIL_HOST", default="")
+LINK_FORGOT_PASSWORD = os.getenv("LINK_FORGOT_PASSWORD", default="")
+
 INSTALLED_APPS = [
     "daphne",
     'rest_framework',
