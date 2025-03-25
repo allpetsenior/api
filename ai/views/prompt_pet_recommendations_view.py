@@ -2,11 +2,22 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.views.decorators.vary import vary_on_headers
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from rest_framework.permissions import IsAuthenticated
 from v0.errors.app_error import App_Error
 from ai.chatbot_provider import Chatbot
 from pets.services.get_pet_service import get_pet_service
 from pets.serializers.pet_serializer import PetSerializer
+from ai.services.update_or_create_recommendation import update_or_create_recommendation_service
+from ai.services.get_many_recommendations import get_many_recommendations_service
+from datetime import datetime, timedelta
+
+
+def create_recommendation(type, content, pet):
+    return {"content": content["data"], "pet": pet, "type": type, "update_in": datetime.now() + timedelta(days=1)}
+
 
 chatbot = Chatbot()
 
@@ -44,6 +55,8 @@ def format_prompt(message, pet):
 class PromptPetRecommendations(APIView):
     permission_classes = [IsAuthenticated]
 
+    @method_decorator(cache_page(60 * 60 * 24))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request):
         try:
             pet_id = request.query_params["pet_id"]
@@ -51,6 +64,16 @@ class PromptPetRecommendations(APIView):
 
             if pet["data"] is None:
                 raise App_Error("Pet not founded", 404)
+
+            # get cached recommendation
+            finded_recommendations = get_many_recommendations_service(
+                {"pet": pet["data"], "update_in__gte": datetime.now()})
+
+            if len(finded_recommendations) > 0:
+                data = {}
+                for r in finded_recommendations:
+                    data[r.type] = {"data": r.content}
+                return Response({"data": data})
 
             prompt_nutrition = format_prompt(message_nutrition, pet["data"])
             prompt_activity = format_prompt(message_activity, pet["data"])
@@ -80,6 +103,22 @@ class PromptPetRecommendations(APIView):
                     ]
 
                 ))
+
+            health_result = futures["health"].result()
+            nutrition_result = futures["nutrition"].result()
+            activity_result = futures["activity"].result()
+
+            # cache recommendations
+            update_or_create_recommendation_service(
+                create_recommendation(
+                    "health", health_result, pet["data"]))
+            update_or_create_recommendation_service(
+                create_recommendation(
+                    "nutrition", nutrition_result, pet["data"]))
+            update_or_create_recommendation_service(
+                create_recommendation(
+                    "activity", activity_result, pet["data"])
+            )
 
             return Response({"data": {"health": futures["health"].result(), "nutrition": futures["nutrition"].result(), "activity": futures["activity"].result()}})
 
