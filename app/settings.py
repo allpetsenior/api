@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from dotenv import load_dotenv
 from urllib.parse import urlparse
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     "daphne",
     'rest_framework',
     'rest_framework.authtoken',
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -164,3 +166,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRONJOBS = [
+    ('0 1 */2 * *', 'core.crons.give_daily_tip')
+]
