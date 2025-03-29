@@ -15,6 +15,18 @@ def create_auth_token(instance=None, created=False, **kwargs):
     Token.objects.create(user=instance)
 
 
+class Tip(models.Model):
+  class Meta:
+    db_table = 'tips'
+    verbose_name = 'Dica'
+    verbose_name_plural = 'Dicas'
+    ordering = ['order']
+
+  id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+  order = models.SmallIntegerField()
+  text = models.TextField(null=True)
+
+
 class User(AbstractUser):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4)
   name = models.CharField(max_length=200)
@@ -44,6 +56,7 @@ class User(AbstractUser):
 
   cellphone = models.CharField(max_length=200)
   email = models.EmailField()
+  tip_of_day = models.ForeignKey(Tip, models.RESTRICT, null=True, default=None)
 
 
 class Invite(models.Model):
