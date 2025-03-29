@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 
 
 def create_recommendation(type, content, pet):
-    return {"content": content["data"], "pet": pet, "type": type, "update_in": datetime.now() + timedelta(days=1)}
+    return {"content": content["data"], "pet": pet, "type": type, "update_in": datetime.now() + timedelta(days=7)}
 
 
 chatbot = Chatbot()
