@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Feedback, Invite
+from .models import Feedback, Invite, Tip
+
+
+class TipSerializer(serializers.Serializer):
+  class Meta:
+    model = Tip
+    fields = '__all__'
 
 
 class UserSerializer(serializers.Serializer):
