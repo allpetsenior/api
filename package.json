@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "api:dev": "source .venv/bin/activate && python manage.py runserver",
+    "api:prod": "daphne -b 0.0.0.0 -p 8000 app.asgi:application",
     "shell": "source .venv/bin/activate && python manage.py shell"
   },
   "author": "github.com/euliveiras",
