@@ -30,9 +30,11 @@ tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 SECRET_KEY = 'django-insecure-ig_ecqqa50^&f(ecb+bu1ukj4_vojv0242(3$sf7zl=%&_1435'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG", 0))
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(";")
+
+DEBUG = bool(int(os.getenv("DEBUG", 0)))
+SECURE_SSL_REDIRECT = bool(int(os.getenv("SECURE_SSL_REDIRECT", 0)))
 
 # Application definition
 CHATBOT_API_KEY = os.getenv("CHATBOT_API_KEY", None)

@@ -13,10 +13,10 @@ class ChatConsumer(JsonWebsocketConsumer):
         self.accept()
         self.send_json(content={"content": res["data"], "role": "assistant"})
 
-    def disconnect(self, close_code):
-        self.close(close_code)
+    def disconnect(self, code):
+        self.close(code)
 
-    def receive_json(self, content):
+    def receive_json(self, content, **_):
         res = chatbot.send_message(messages=content)
         self.send_json(
             content={"content": res["data"], "role": "assistant"})
