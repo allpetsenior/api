@@ -27,14 +27,12 @@ tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ig_ecqqa50^&f(ecb+bu1ukj4_vojv0242(3$sf7zl=%&_1435'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(os.getenv("DEBUG", 0))
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(";")
-
-DEBUG = bool(int(os.getenv("DEBUG", 0)))
-SECURE_SSL_REDIRECT = bool(int(os.getenv("SECURE_SSL_REDIRECT", 0)))
 
 # Application definition
 CHATBOT_API_KEY = os.getenv("CHATBOT_API_KEY", None)
@@ -119,12 +117,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv("DATABASE_NAME"),
+        'USER': os.getenv("DATABASE_USER"),
+        'PASSWORD': os.getenv("DATABASE_PASSWORD"),
+        'HOST': os.getenv("DATABASE_HOST"),
+        'PORT': 3306,
     }
 }
 
