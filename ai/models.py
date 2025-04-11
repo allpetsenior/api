@@ -5,18 +5,18 @@ from pets.models import Pet
 
 
 class Recommendation(models.Model):
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
-    content = models.CharField(max_length=4000)
+  pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+  content = models.CharField(max_length=4000)
 
-    class Type(models.TextChoices):
-        health = 'HT', _('HEALTH')
-        nutrition = 'NT', _('NUTRITION')
-        activity = 'AT', _('ACTIVITY')
+  class Type(models.TextChoices):
+    health = 'HT', _('HEALTH')
+    nutrition = 'NT', _('NUTRITION')
+    activity = 'AT', _('ACTIVITY')
 
-    type = models.CharField(
-        max_length=12,
-        choices=Type.choices,
-    )
+  type = models.CharField(
+      max_length=12,
+      choices=Type.choices,
+  )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    update_in = models.DateTimeField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  update_in = models.DateTimeField()

@@ -64,6 +64,7 @@ EMAIL_HOST = os.getenv("EMAIL_HOST", default="")
 LINK_FORGOT_PASSWORD = os.getenv("LINK_FORGOT_PASSWORD", default="")
 
 INSTALLED_APPS = [
+    'corsheaders',
     "daphne",
     'rest_framework',
     'rest_framework.authtoken',
@@ -81,6 +82,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -109,6 +111,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Database
