@@ -5,14 +5,9 @@ from v0.errors.app_error import App_Error
 pet_race_repo = PetRaceRepository()
 
 
-def update_pet_service(query, data):
+def delete_pet_service(query):
   try:
-    if "race" in data:
-      race = pet_race_repo.get_race(
-          {"name": data["race"]["name"], 'specie': data['race']['specie']})
-      data["race"] = race
-
-    affected_rows = Pet.objects.filter(**query).update(**data)
+    affected_rows = Pet.objects.filter(**query).delete()
 
     if affected_rows == 0:
       raise App_Error("Pet not founded", 404)
