@@ -9,6 +9,6 @@ def give_daily_tip():
     if tutor.tip_of_day is None or tutor.tip_of_day.order == tips.last().order:
       tutor.tip_of_day = tips.first()
     else:
-      tutor.tip_of_day = tips.filter(order=tutor.tip_of_day.order + 1)
+      tutor.tip_of_day = tips.filter(order=tutor.tip_of_day.order + 1).first()
 
     tutor.save()
