@@ -53,7 +53,6 @@ class Chatbot():
             "messages": messages,
             "chatbotId": self.chatbot_id,
             "stream": False,
-            "temperature": 0
         }
 
         response = requests.post(
