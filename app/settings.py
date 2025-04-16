@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
-from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
@@ -42,7 +41,9 @@ SECURE_HSTS_PRELOAD = True
 
 # Application definition
 CHATBOT_API_KEY = os.getenv("CHATBOT_API_KEY", None)
-CHATBOT_ID = os.getenv("CHATBOT_ID", None)
+CHATBOT_AGENT_ID = os.getenv("CHATBOT_AGENT_ID", None)
+RECOMMENDATION_AGENT_ID = os.getenv("RECOMMENDATION_AGENT_ID", None)
+RECOMMENDATION_EXPIRE_DAYS = int(os.getenv("RECOMMENDATION_EXPIRE_DAYS", 7))
 CHATBOT_BASE_URL = os.getenv("CHATBOT_BASE_URL", None)
 
 ASGI_APPLICATION = "app.asgi.application"

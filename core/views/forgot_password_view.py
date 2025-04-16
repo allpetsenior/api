@@ -33,7 +33,7 @@ def forgot_password_view(request):
         )
 
         send_mail(
-            "AllPetSenior - Recuperar senha",
+            "Redefina sua senha na AllPetSenior",
             text_content,
             EMAIL_HOST_USER,
             [email],
