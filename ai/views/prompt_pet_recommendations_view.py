@@ -69,8 +69,9 @@ Crie uma recomendação personalizada para o pet sobre "Cuidados Preventivos e P
 
 def format_prompt(message, pet):
     birth_date = pet.birth_date.year - datetime.now().year
-    health_problem = pet.health_problem.replace(";", ", ")
-    medicines = pet.medicine.replace(";", ", ")
+    health_problem = pet.health_problem.replace(
+        ";", ", ") if pet.health_problem else ""
+    medicines = pet.medicine.replace(";", ", ") if pet.medicine else ""
     specie = "cão" if pet.specie == "DOG" else "gato"
     sex = "macho" if pet.sex == "MALE" else "fêmea"
     formatted_pet_fields = f"""
