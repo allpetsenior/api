@@ -33,6 +33,7 @@ class Chatbot():
             "messages": message,
             "chatbotId": self.recommendation_agent_id,
             "stream": False,
+            "temperature": 0.4
         }
 
         response = requests.post(
@@ -53,6 +54,7 @@ class Chatbot():
             "messages": messages,
             "chatbotId": self.chatbot_id,
             "stream": False,
+            "temperature": 0.1
         }
 
         response = requests.post(
