@@ -1,37 +1,38 @@
 from django.contrib.auth.models import make_password
 from django.db import IntegrityError
+
 from core.models import User
 from v0.errors.app_error import App_Error
 
 
 class User_Repository():
-    def get_or_create_user(self, data):
-        try:
-            return User.objects.get_or_create(name=data["name"], last_name=data["last_name"], birth_date=data["birth_date"], email=data["email"], state=data["state"], username=data["username"], cellphone=data["cellphone"], defaults={"password": make_password(data["password"])})
+  def get_or_create_user(self, data):
+    try:
+      return User.objects.get_or_create(name=data["name"], last_name=data["last_name"], birth_date=data["birth_date"], email=data["email"], state=data["state"], username=data["username"], cellphone=data["cellphone"], defaults={"password": make_password(data["password"])})
 
-        except IntegrityError as e:
-            raise App_Error(
-                f'INTEGRITY_ERROR USER_REPOSITORY_CREATE_USER {str(e)}', 500)
+    except IntegrityError as e:
+      raise App_Error(
+          f'INTEGRITY_ERROR USER_REPOSITORY_CREATE_USER {str(e)}', 500)
 
-    def create_user(self, data):
-        try:
-            data["password"] = make_password(data["password"])
+  def create_user(self, data):
+    try:
+      data["password"] = make_password(data["password"])
 
-            return User.objects.create(**data)
+      return User.objects.create(**data)
 
-        except IntegrityError as e:
-            raise App_Error(
-                f'INTEGRITY_ERROR USER_REPOSITORY_CREATE_USER {str(e)}', 500)
+    except IntegrityError as e:
+      raise App_Error(
+          f'INTEGRITY_ERROR USER_REPOSITORY_CREATE_USER {str(e)}', 500)
 
-    def find_user(self, data):
-        try:
-            return User.objects.get(**data)
-        except User.DoesNotExist:
-            return None
+  def find_user(self, data):
+    try:
+      return User.objects.get(**data)
+    except User.DoesNotExist:
+      return None
 
-    def update(self, query, data):
-        if "password" in data:
-            password = make_password(data["password"])
-            data["password"] = password
+  def update(self, query, data):
+    if "password" in data:
+      password = make_password(data["password"])
+      data["password"] = password
 
-        return User.objects.filter(**query).update(**data)
+    return User.objects.filter(**query).update(**data)
