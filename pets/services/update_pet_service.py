@@ -17,7 +17,6 @@ def update_pet_service(query, data):
 
         if affected_rows == 0:
             raise App_Error("Pet not founded", 404)
-
-        return {"data": affected_rows}
-    except Exception as e:
-        return {"error": e}
+    return {"data": Pet.objects.filter(**query).first()}
+  except Exception as e:
+    return {"error": e}

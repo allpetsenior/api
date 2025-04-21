@@ -1,5 +1,6 @@
 from django.urls import path
 
+from core.views.ActionIndexView import ActionIndexView
 from core.views.create_feedback_view import create_feedback_view
 from core.views.create_invite_view import create_invite_view
 from core.views.forgot_password_view import forgot_password_view
@@ -16,4 +17,5 @@ urlpatterns = [
     path("/forgot-password", forgot_password_view),
     path("/reset-password", reset_password_view),
     path("/tips", TipsIndexView.as_view()),
+    path("/actions", ActionIndexView.as_view()),
 ]

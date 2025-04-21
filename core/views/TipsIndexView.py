@@ -3,9 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from core.models import Tip, User
 from core.serializers import TipSerializer
-from core.services import get_user_service
 
 from ..services.get_tip_service import get_tip_service
 
