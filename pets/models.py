@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from core.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class PetRace(models.Model):
@@ -42,6 +43,21 @@ class Pet(models.Model):
     race = models.ForeignKey(PetRace, on_delete=models.CASCADE)
     sex = models.CharField(max_length=200)
     is_castrated = models.BooleanField()
+
+    class Habitation(models.TextChoices):
+        apt = 'Apartamento', _('Apartamento')
+        rural_area = 'Área rural (sítio, fazenda ou chácara)', _(
+            'Área rural (sítio, fazenda ou chácara')
+        house_without_yard = 'Casa sem quintal', _(
+            'Casa sem quintal')
+        house_with_yard = 'Casa com quintal ou área externa', _(
+            'Casa com quintal ou área externa')
+        other = 'Outro', _('Outro')
+
+    habitation = models.CharField(
+        max_length=40,
+        choices=Habitation.choices,
+    )
     color = models.CharField(max_length=200, null=True)
     size = models.CharField(max_length=200, null=True)
     activity = models.CharField(max_length=200)
