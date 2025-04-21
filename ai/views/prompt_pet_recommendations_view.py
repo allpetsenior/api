@@ -108,8 +108,6 @@ class PromptPetRecommendations(APIView):
 
             futures = {}
 
-            print(prompt_nutrition, prompt_health, prompt_activity)
-
             with ThreadPoolExecutor(max_workers=3) as executor:
                 futures["nutrition"] = executor.submit(
                     chatbot.get_recommendation, message=[
