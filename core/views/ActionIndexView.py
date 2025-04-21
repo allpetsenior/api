@@ -20,7 +20,7 @@ class ActionIndexView(APIView):
         **data,
         'user': user,
         'created_at': datetime.now(),
-        # 'ip': request.META.get('REMOTE_ADDR'),
+        'ip': request.META.get('REMOTE_ADDR'),
       })
 
       return Response({'data': True}, 200)
