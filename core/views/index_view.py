@@ -10,57 +10,61 @@ from core.services.get_token_by_user import get_token_by_user_service
 from core.services.get_user_service import get_user_service
 from core.services.update_user_service import update_user_service
 from v0.errors.app_error import App_Error
+from core.auth_email import auth_emails
 
 
 class IndexView(APIView):
-  permission_classes = []
+    permission_classes = []
 
-  def post(self, request):
-    try:
-      if "id" in request.data:
-        request.data['id'] = None
-      user_already_exists = get_user_service(
-          request.data)
+    def post(self, request):
+        try:
+            if "id" in request.data:
+                request.data['id'] = None
 
-      if user_already_exists["user"] is not None:
-        return Response({"error": {"message": "User already exists"}}, 405)
+            if request.data["email"] not in auth_emails:
+                raise App_Error("Email não autorizado", 400)
+            user_already_exists = get_user_service(
+                request.data)
 
-      data = create_user_service(
-        {**request.data, 'tip_of_day': get_tip_service({'order': 1})['data'].first()})
-      token = get_token_by_user_service(data["user"])
-      user_serializer = UserSerializer(data["user"])
+            if user_already_exists["user"] is not None:
+                return Response({"error": {"message": "User already exists"}}, 405)
 
-      return Response({"token": token["data"].key, "user": user_serializer.data}, 201)
+            data = create_user_service(
+                {**request.data, 'tip_of_day': get_tip_service({'order': 1})['data'].first()})
+            token = get_token_by_user_service(data["user"])
+            user_serializer = UserSerializer(data["user"])
 
-    except App_Error as e:
-      traceback.print_exception(e)
-      return Response(e.toHttp(), e.status)
-    except Exception as e:
-      traceback.print_exception(e)
-      return Response({"error": {"message": str(e)}}, 500)
+            return Response({"token": token["data"].key, "user": user_serializer.data}, 201)
 
-  def put(self, request):
-    try:
-      update_user_service({"id": request.user.id}, request.data)
+        except App_Error as e:
+            traceback.print_exception(e)
+            return Response(e.toHttp(), e.status)
+        except Exception as e:
+            traceback.print_exception(e)
+            return Response({"error": {"message": str(e)}}, 500)
 
-      return Response(None, 200)
+    def put(self, request):
+        try:
+            update_user_service({"id": request.user.id}, request.data)
 
-    except App_Error as e:
-      traceback.print_exception(e)
-      return Response(e.toHttp(), e.status)
-    except Exception as e:
-      traceback.print_exception(e)
-      return Response({"error": {"message": str(e)}}, 500)
+            return Response(None, 200)
 
-  def delete(self, request):
-    try:
-      request.user.delete()
+        except App_Error as e:
+            traceback.print_exception(e)
+            return Response(e.toHttp(), e.status)
+        except Exception as e:
+            traceback.print_exception(e)
+            return Response({"error": {"message": str(e)}}, 500)
 
-      return Response(None, 200)
+    def delete(self, request):
+        try:
+            request.user.delete()
 
-    except App_Error as e:
-      traceback.print_exception(e)
-      return Response(e.toHttp(), e.status)
-    except Exception as e:
-      traceback.print_exception(e)
-      return Response({"error": {"message": str(e)}}, 500)
+            return Response(None, 200)
+
+        except App_Error as e:
+            traceback.print_exception(e)
+            return Response(e.toHttp(), e.status)
+        except Exception as e:
+            traceback.print_exception(e)
+            return Response({"error": {"message": str(e)}}, 500)
