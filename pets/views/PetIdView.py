@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from pets.serializers.pet_serializer import PetSerializer
 from pets.services.delete_pet_service import delete_pet_service
 from pets.services.update_pet_service import update_pet_service
 from v0.errors.app_error import App_Error
@@ -22,7 +23,7 @@ class PetIdView(APIView):
         print(updated_pet["error"])
         return Response({"error": {"message": str(updated_pet["error"])}}, 500)
 
-      return Response({"data": updated_pet["data"]}, 200)
+      return Response({"data": PetSerializer(updated_pet["data"]).data}, 200)
 
     except App_Error as e:
       traceback.print_exception(e)

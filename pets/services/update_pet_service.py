@@ -10,13 +10,13 @@ def update_pet_service(query, data):
     if "race" in data:
       race = pet_race_repo.get_race(
           {"name": data["race"]["name"], 'specie': data['race']['specie']})
-      data["race"] = race
+      data["race"] = race.first()
 
     affected_rows = Pet.objects.filter(**query).update(**data)
 
     if affected_rows == 0:
       raise App_Error("Pet not founded", 404)
 
-    return {"data": affected_rows}
+    return {"data": Pet.objects.filter(**query).first()}
   except Exception as e:
     return {"error": e}
