@@ -30,7 +30,7 @@ def format_prompt(message, pet):
     medicines = pet.medicine.replace(";", ", ") if pet.medicine else ""
     specie = "cão" if pet.specie == "DOG" else "gato"
     sex = "macho" if pet.sex == "MALE" else "fêmea"
-    formatted_pet_fields = f"<cadastro>Nome: {pet.name}; espécie: {specie}; sexo: {sex}; raça: {pet.race.name}; porte: {pet.size}; cor: {pet.color}; nível de atividade: {pet.activity}; idade: {birth_date}; peso: {pet.weight}; problemas de saúde: {health_problem}; remédios: {medicines}</cadastro>\n"
+    formatted_pet_fields = f"<cadastro>Nome: {pet.name}; espécie: {specie}; sexo: {sex}; raça: {pet.race.name}; porte: {pet.size}; cor: {pet.color}; moradia: {pet.habitation}; nível de atividade: {pet.activity}; idade: {birth_date}; peso: {pet.weight}; problemas de saúde: {health_problem}; remédios: {medicines}</cadastro>\n"
 
     return formatted_pet_fields + message
 
