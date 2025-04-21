@@ -11,9 +11,9 @@ from pets.models import *
 
 class PetMinMaxWeightSerializer(s.ModelSerializer):
 
-    class Meta:
-        model = PetMinMaxWeight
-        exclude = ['race']
+  class Meta:
+    model = PetMinMaxWeight
+    exclude = ['race']
 
 
 class PetRaceSerializer(s.ModelSerializer):
