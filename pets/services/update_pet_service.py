@@ -12,7 +12,6 @@ def update_pet_service(query, data):
                 {"name": data["race"]["name"], 'specie': data['race']['specie']})
             data["race"] = race[0]
 
-        print(data)
         affected_rows = Pet.objects.filter(
             **query).update(**data)
 
