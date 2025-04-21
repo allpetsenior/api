@@ -6,18 +6,18 @@ pet_race_repo = PetRaceRepository()
 
 
 def update_pet_service(query, data):
-    try:
-        if "race" in data:
-            race = pet_race_repo.get_race(
-                {"name": data["race"]["name"], 'specie': data['race']['specie']})
-            data["race"] = race[0]
+  try:
+    if "race" in data:
+      race = pet_race_repo.get_race(
+          {"name": data["race"]["name"], 'specie': data['race']['specie']})
+      data["race"] = race[0]
 
-        affected_rows = Pet.objects.filter(
-            **query).update(**data)
+    affected_rows = Pet.objects.filter(
+        **query).update(**data)
 
-        if affected_rows == 0:
-            raise App_Error("Pet not founded", 404)
+    if affected_rows == 0:
+      raise App_Error("Pet not founded", 404)
+    return {"data": Pet.objects.filter(**query).first()}
 
-        return {"data": affected_rows}
-    except Exception as e:
-        return {"error": e}
+  except Exception as e:
+    return {"error": e}

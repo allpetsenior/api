@@ -13,7 +13,7 @@ class PetMinMaxWeightSerializer(s.ModelSerializer):
 
   class Meta:
     model = PetMinMaxWeight
-    fields = '__all__'
+    exclude = ['race']
 
 
 class PetRaceSerializer(s.ModelSerializer):
