@@ -7,7 +7,7 @@ auth_emails = [
     "rachel.hbastos@gmail.com",
     "carol.rodriguesdealmeida@gmail.com",
     "catanzio@gmail.com",
-    "Mv.julialozinsky@gmail.com",
+    "mv.julialozinsky@gmail.com",
     "fredbv@gmail.com",
     "onibeiras@gmail.com",
     "lilianbca@gmail.com",
@@ -25,7 +25,7 @@ auth_emails = [
     "renato@crearenet.com.br",
     "analucianapeck@gmail.com",
     "monteirojulial@gmail.com",
-    "Ghisfilhotes@gmail.com",
+    "ghisfilhotes@gmail.com",
     "malurod@gmail.com",
     "roxolais@gmail.com",
     "leootgandara@gmail.com",
@@ -39,7 +39,7 @@ auth_emails = [
     "ofazedor@hotmail.com",
     "luiz767@gmail.com",
     "tais.carmo@hotmail.com",
-    "Mariliazallocco@gmail.com",
+    "mariliazallocco@gmail.com",
     "rosane.garofalo@hotmail.com",
     "kikikikakw@gmail.com",
     "raphaelabastosh@gmail.com",
@@ -71,5 +71,6 @@ auth_emails = [
     "bassianapaula@gmail.com",
     "izabel.mello.santos@gmail.com",
     "julianaprobst123@gmail.com",
-    "mv.thaisacarvalho@gmail.com"
+    "mv.thaisacarvalho@gmail.com",
+    "matheus@allpetsenior.com"
 ]
