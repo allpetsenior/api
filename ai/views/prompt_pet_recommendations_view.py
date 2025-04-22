@@ -23,14 +23,25 @@ def create_recommendation(type, content, pet):
     return {"content": content["data"], "pet": pet, "type": type, "update_in": datetime.now() + timedelta(days=RECOMMENDATION_EXPIRE_DAYS)}
 
 
+def get_pet_activity(activity):
+    if activity == "LOW":
+        return "baixa"
+    if activity == "MEDIUM":
+        return "média"
+    if activity == "HIGH":
+        return "alta"
+    return activity
+
+
 def format_prompt(message, pet):
-    birth_date = pet.birth_date.year - datetime.now().year
+    birth_date = datetime.now().year - pet.birth_date.year
     health_problem = pet.health_problem.replace(
         ";", ", ") if pet.health_problem else ""
     medicines = pet.medicine.replace(";", ", ") if pet.medicine else ""
     specie = "cão" if pet.specie == "DOG" else "gato"
     sex = "macho" if pet.sex == "MALE" else "fêmea"
-    formatted_pet_fields = f"<cadastro>Nome: {pet.name}; espécie: {specie}; sexo: {sex}; raça: {pet.race.name}; porte: {pet.size}; cor: {pet.color}; moradia: {pet.habitation}; nível de atividade: {pet.activity}; idade: {birth_date}; peso: {pet.weight}; problemas de saúde: {health_problem}; remédios: {medicines}</cadastro>\n"
+    activity = get_pet_activity(pet.activity)
+    formatted_pet_fields = f"<cadastro>Nome: {pet.name}; espécie: {specie}; sexo: {sex}; raça: {pet.race.name}; porte: {pet.size}; cor: {pet.color}; moradia: {pet.habitation}; nível de atividade: {activity}; idade: {birth_date}; peso: {pet.weight}; problemas de saúde: {health_problem}; remédios: {medicines}</cadastro>\n"
 
     return formatted_pet_fields + message
 
@@ -105,6 +116,8 @@ class PromptPetRecommendations(APIView):
             prompt_nutrition = format_prompt(message_nutrition, pet["data"])
             prompt_activity = format_prompt(message_activity, pet["data"])
             prompt_health = format_prompt(message_health, pet["data"])
+
+            print(prompt_activity, prompt_nutrition, prompt_health)
 
             futures = {}
 
