@@ -1,3 +1,4 @@
+from django.core.paginator import EmptyPage
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
@@ -13,9 +14,17 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
     def get_paginated_response(self, data):
+        previous = None
+        next_page = None
+        try:
+            next_page = self.page.next_page_number()
+            previous = self.page.previous_page_number()
+        except EmptyPage:
+            pass
+
         return Response({
-            'next': self.get_next_link(),
-            'previous': self.get_previous_link(),
+            'next': next_page,
+            "previous": previous,
             'count': self.page.paginator.count,
             'results': data
         })
@@ -36,6 +45,6 @@ class PetRaces(ListAPIView):
             data["specie"] = specie
 
         if name:
-            data["name"] = name
+            data["name__icontains"] = name
 
-        return PetRace.objects.filter(**data)
+        return PetRace.objects.filter(**data).order_by("name")
