@@ -8,7 +8,7 @@ def give_daily_tip():
   tutors = User.objects.all()
 
   for tutor in tutors:
-    diff = datetime.now() - tutor.date_joined
+    diff = datetime.now().date() - tutor.date_joined.date()
 
     if diff.days % 2 == 0:
 
