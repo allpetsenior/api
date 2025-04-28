@@ -67,7 +67,11 @@ class Invite(models.Model):
 
   email = models.EmailField(unique=True)
   created_at = models.DateTimeField(auto_now_add=True)
-  user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+  user = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    models.SET_NULL,
+    null=True
+  )
 
 
 class Feedback(models.Model):
@@ -84,7 +88,11 @@ class Feedback(models.Model):
   rating = models.PositiveSmallIntegerField(choices=Reaction.choices)
   text = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
-  user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+  user = models.ForeignKey(
+    settings.AUTH_USER_MODEL,
+    models.SET_NULL,
+    null=True
+  )
 
 
 class Action(models.Model):
