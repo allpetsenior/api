@@ -72,5 +72,13 @@ auth_emails = [
     "izabel.mello.santos@gmail.com",
     "julianaprobst123@gmail.com",
     "mv.thaisacarvalho@gmail.com",
-    "matheus@allpetsenior.com"
+    "matheus@allpetsenior.com",
+    "sousantos@uol.com.br",
+    "ellyanaferreira@gmail.com",
+    "deisycesblu@gmail.com",
+    "marcoschavesmartins@gmail.com",
+    "carolsalomao81@gmail.com",
+    "marciaabreuallvet@gmail.com",
+    "flaviasrgtoledo@gmail.com",
+    "mariscam12@gmail.com"
 ]
