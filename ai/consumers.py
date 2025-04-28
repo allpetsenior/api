@@ -41,9 +41,8 @@ class ChatConsumer(JsonWebsocketConsumer):
             if finded_chat["data"].remaining_messages <= 0:
                 raise App_Error("Remaining messages is over", 400)
 
-            serializer = ChatSerializer(finded_chat["data"])
             self.send_json(content={
-                "content": res["data"], "role": "assistant", "chat": serializer.data})
+                "content": res["data"], "role": "assistant", "remaining_messages": finded_chat["data"].remaining_messages})
         except Exception as e:
             print("ERROR-CHAT_CONSUMER")
             traceback.print_exception(e)

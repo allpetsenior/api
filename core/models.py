@@ -85,3 +85,25 @@ class Feedback(models.Model):
   text = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
   user = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
+
+
+class Action(models.Model):
+  class Meta:
+    db_table = 'actions'
+    verbose_name = 'Ação'
+    verbose_name_plural = 'Ações'
+
+  class Type(models.TextChoices):
+    LOGIN = 'LOGIN', _('LOGIN')
+    LOGOUT = 'LOGOUT', _('LOGOUT')
+    FEEDBACK = 'FEEDBACK', _('FEEDBACK')
+
+  type = models.CharField(
+    max_length=20,
+    choices=Type.choices,
+    default=Type.LOGIN
+  )
+
+  ip = models.GenericIPAddressField()
+  created_at = models.DateTimeField(auto_now_add=True)
+  user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)

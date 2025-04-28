@@ -16,80 +16,78 @@ from ai.services.get_many_recommendations import get_many_recommendations_servic
 from datetime import datetime, timedelta
 from app.settings import RECOMMENDATION_EXPIRE_DAYS
 
+chatbot = Chatbot()
+
 
 def create_recommendation(type, content, pet):
     return {"content": content["data"], "pet": pet, "type": type, "update_in": datetime.now() + timedelta(days=RECOMMENDATION_EXPIRE_DAYS)}
 
 
-chatbot = Chatbot()
-
-message_nutrition = f"""
-<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça"])}</dado>
-
-Crie uma recomendação personalizada para o pet sobre "Nutrição, Dieta e Peso" baseada na informação de <dado>
-1. Não inclua conteúdos sobre "Enriquecimento Ambiental e Gerenciamento de Estresse" e "Cuidados Preventivos e Proativos para Problemas de Saúde"
-2. Avalie as funções dos remédios e efeitos colaterais sem citar nomes de medicações ou suplementos
-3. Utilize somente o nome do pet e não mencione os demais dados informados para evitar repetição
-4. Quando identificado como pet geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
-5. A recomendação deve formatada em 2 tópicos, sem textos antes ou depois:
-    - Ações que o tutor possa realizar em sua moradia. Inicie o tópico com "Para fazer em casa:"
-    - Ações com o veterinário. Inicie o tópico com "Com o veterinário:"
-    - Deve conter menos de 1000 caracteres
-"""
-
-message_activity = f"""
-<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça", "nível de atividade"])}</dado>
-
-Crie uma recomendação personalizada para o pet sobre "Enriquecimento Ambiental e Gerenciamento de Estresse" baseada na informação de <dado>
-1. Não inclua recomendações sobre "Cuidados Preventivos e Proativos para Problemas de Saúde" e "Nutrição, Dieta e Peso"
-2. Avalie as funções dos remédios e efeitos colaterais sem citar nomes de medicações ou suplementos
-3. Utilize somente o nome do pet e não mencione os demais dados informados para evitar repetição
-4. Quando identificado como pet geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
-5. A recomendação deve formatada em 2 tópicos, sem textos antes ou depois:
-    - Ações que o tutor possa realizar em sua moradia. Inicie o tópico com "Para fazer em casa:"
-    - Ações com o veterinário. Inicie o tópico com "Com o veterinário:""
-    - Termine com: "Ficou na dúvida? Pergunte pra IAPetSenior!"
-    - Deve conter menos de 1000 caracteres
-"""
-
-message_health = f"""
-<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça"])}</dado>
-
-Crie uma recomendação personalizada para o pet sobre "Cuidados Preventivos e Proativos para Problemas de Saúde" baseada na informação de <dado>
-1. Não inclua conteúdos sobre "Enriquecimento Ambiental e Gerenciamento de Estresse" e "Nutrição, Dieta e Peso"
-2. Avalie as funções dos remédios e efeitos colaterais sem citar nomes de medicações ou suplementos
-3. Utilize somente o nome do pet e não mencione os demais dados informados para evitar repetição
-4. Quando identificado como pet geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
-5. A recomendação deve formatada em 2 tópicos, sem textos antes ou depois:
-    - Ações que o tutor possa realizar em sua moradia. Inicie o tópico com "Para fazer em casa:"
-    - Ações com o veterinário. Inicie o tópico com "Com o veterinário:"
-    - Deve conter menos de 1000 caracteres
-"""
+def get_pet_activity(activity):
+    if activity == "LOW":
+        return "baixa"
+    if activity == "MEDIUM":
+        return "média"
+    if activity == "HIGH":
+        return "alta"
+    return activity
 
 
 def format_prompt(message, pet):
-    birth_date = pet.birth_date.year - datetime.now().year
+    birth_date = datetime.now().year - pet.birth_date.year
     health_problem = pet.health_problem.replace(
         ";", ", ") if pet.health_problem else ""
     medicines = pet.medicine.replace(";", ", ") if pet.medicine else ""
     specie = "cão" if pet.specie == "DOG" else "gato"
     sex = "macho" if pet.sex == "MALE" else "fêmea"
-    formatted_pet_fields = f"""
-    Nome: {pet.name};
-    espécie: {specie};
-    sexo: {sex};
-    raça: {pet.race.name};
-    porte: {pet.size};
-    cor: {pet.color};
-    nível de atividade: {pet.activity};
-    idade: {birth_date};
-    peso: {pet.weight};
-    problemas de saúde: {health_problem};
-    remédios: {medicines}
-
-    """
+    activity = get_pet_activity(pet.activity)
+    formatted_pet_fields = f"<cadastro>Nome: {pet.name}; espécie: {specie}; sexo: {sex}; raça: {pet.race.name}; porte: {pet.size}; cor: {pet.color}; moradia: {pet.habitation}; nível de atividade: {activity}; idade: {birth_date}; peso: {pet.weight}; problemas de saúde: {health_problem}; remédios: {medicines}</cadastro>\n"
 
     return formatted_pet_fields + message
+
+
+message_nutrition = f"""
+<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça"])}</dado>
+
+Com base no <cadastro> do pet, crie uma recomendação personalizada sobre "Alimentação, Nutrição e Peso", adaptada à fase da vida e às possíveis limitações, relacionada com a informação de <dado>
+1. Não inclua recomendações sobre "Enriquecimento Ambiental" e "Cuidados Preventivos e Proativos para Problemas de Saúde"
+2. Avalie diferentes tipos de alimentos, mencionado os benefícios para a condição do pet 
+3. Utilize somente o nome do pet no texto e não repita os demais dados do <cadastro>
+4. Se o pet for geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
+5. A recomendação deve formatada exatamente em 2 tópicos, sem textos antes ou depois:    
+    - "Para fazer em casa:", citando ações práticas para o tutor realizar em sua moradia
+    - "Com o veterinário:", citando ações clínicas ou profissionais. 
+    - O texto deve conter aproximadamente 1000 caracteres, sem ultrapassar este limite
+"""
+
+message_activity = f"""
+<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça", "nível de atividade"])}</dado>
+
+Com base no <cadastro> do pet, elabore uma recomendação personalizada sobre "Enriquecimento Ambiental", adaptada à fase da vida e às possíveis limitações, baseada na informação de <dado>
+1. Não inclua recomendações sobre "Cuidados Preventivos e Proativos para Problemas de Saúde" e "Nutrição, Dieta e Peso"
+2. Avalie diferentes formas de melhorar o ambiente, mencionando os benefícios para a condição do pet
+3. Utilize somente o nome do pet no texto e não repita os demais dados do <cadastro>
+4. Se o pet for geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
+5. A recomendação deve formatada exatamente em 2 tópicos, sem textos antes ou depois:    
+    - "Para fazer em casa:", citando ações práticas para o tutor realizar em sua moradia
+    - "Com o veterinário:", citando ações clínicas ou profissionais. 
+    - Termine com: "Ficou na dúvida? Pergunte pra IAPetSenior!"
+    - O texto deve conter aproximadamente 1000 caracteres, sem ultrapassar este limite
+"""
+
+message_health = f"""
+<dado>{random.choice(["problemas de saúde", "remédios", "peso", "idade", "porte", "raça"])}</dado>
+
+Com base no <cadastro> do pet, elabore uma recomendação personalizada sobre "Cuidados Preventivos e Proativos para Problemas de Saúde", adaptada à fase da vida e às possíveis limitações, relacionada com a informação de <dado>
+1. Não inclua recomendações sobre "Enriquecimento Ambiental" e "Nutrição, Dieta e Peso"
+2. Avalie a utilidade dos remédios, mencionando funções e efeitos colaterais comuns, sem citar nomes de medicamentos ou suplementos.
+3. Utilize somente o nome do pet no texto e não repita os demais dados do <cadastro>
+4. Se o pet for geriátrico, utilize os termos "mais idoso" ou "idoso avançado"
+5. A recomendação deve formatada exatamente em 2 tópicos, sem textos antes ou depois:    
+    - "Para fazer em casa:", citando ações práticas para o tutor realizar em sua moradia
+    - "Com o veterinário:", citando ações clínicas ou profissionais. 
+    - O texto deve conter aproximadamente 1000 caracteres, sem ultrapassar este limite
+"""
 
 
 class PromptPetRecommendations(APIView):
@@ -118,6 +116,8 @@ class PromptPetRecommendations(APIView):
             prompt_nutrition = format_prompt(message_nutrition, pet["data"])
             prompt_activity = format_prompt(message_activity, pet["data"])
             prompt_health = format_prompt(message_health, pet["data"])
+
+            print(prompt_activity, prompt_nutrition, prompt_health)
 
             futures = {}
 

@@ -15,8 +15,9 @@ from v0.errors.app_error import App_Error
 @permission_classes([])
 def login_view(request: rest_framework.request.Request):
   try:
-    data = get_user_service(
-        {"email": request.data["email"]})
+    data = get_user_service({
+      "email": request.data["email"]
+    })
 
     if data["user"] is None:
       return Response({"error": {"message": "Credentials are invalid"}}, 404)
