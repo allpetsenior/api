@@ -179,5 +179,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
-    ('0 1 */2 * *', 'core.crons.give_daily_tip')
+    ('0 1 * * *', 'core.crons.give_daily_tip')
 ]
