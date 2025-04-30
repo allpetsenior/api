@@ -5,7 +5,7 @@ feedback_repo = FeedbackRepository()
 
 
 def get_feedback_by_recommendation_id(recommendation_id):
-    if "recommendation_id" is None:
+    if "recommendation_id" == None:
         raise App_Error(
             "GET-FEEDBACK-RECOMMENDATION-ERROR: recommendation_id is required", 400)
 
