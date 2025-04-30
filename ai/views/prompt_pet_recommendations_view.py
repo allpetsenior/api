@@ -110,14 +110,13 @@ class PromptPetRecommendations(APIView):
             if len(finded_recommendations) > 0:
                 data = {}
                 for r in finded_recommendations:
-                    data[r.type] = {"data": r.content}
+                    data[r.type] = {"data": r.content, "id": r.id}
+
                 return Response({"data": data})
 
             prompt_nutrition = format_prompt(message_nutrition, pet["data"])
             prompt_activity = format_prompt(message_activity, pet["data"])
             prompt_health = format_prompt(message_health, pet["data"])
-
-            print(prompt_activity, prompt_nutrition, prompt_health)
 
             futures = {}
 
@@ -146,18 +145,18 @@ class PromptPetRecommendations(APIView):
             activity_result = futures["activity"].result()
 
             # cache recommendations
-            update_or_create_recommendation_service(
+            cached_health_recommendation = update_or_create_recommendation_service(
                 create_recommendation(
                     "health", health_result, pet["data"]))
-            update_or_create_recommendation_service(
+            cached_nutrition_recommendation = update_or_create_recommendation_service(
                 create_recommendation(
                     "nutrition", nutrition_result, pet["data"]))
-            update_or_create_recommendation_service(
+            cached_activity_recommendation = update_or_create_recommendation_service(
                 create_recommendation(
                     "activity", activity_result, pet["data"])
             )
 
-            return Response({"data": {"health": futures["health"].result(), "nutrition": futures["nutrition"].result(), "activity": futures["activity"].result()}})
+            return Response({"data": {"health": {"data": cached_health_recommendation.content, "id": cached_health_recommendation.id}, "nutrition": {"data": cached_nutrition_recommendation.content, "id": cached_nutrition_recommendation.id}, "activity": {"data": cached_activity_recommendation.content, "id": cached_activity_recommendation.id}}})
 
         except App_Error as e:
             traceback.print_exception(e)

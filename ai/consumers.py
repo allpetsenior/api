@@ -18,6 +18,7 @@ class ChatConsumer(JsonWebsocketConsumer):
             user = self.scope["user"]
             if user.is_anonymous:
                 self.close()
+                return
 
             self.accept()
 

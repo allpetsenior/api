@@ -24,6 +24,12 @@ class Recommendation(models.Model):
     update_in = models.DateTimeField()
 
 
+class Feedback(models.Model):
+    recommendation = models.OneToOneField(
+        Recommendation, on_delete=models.CASCADE)
+    is_good = models.BooleanField()
+
+
 class Chat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
