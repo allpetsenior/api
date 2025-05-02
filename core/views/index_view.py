@@ -3,6 +3,7 @@ import traceback
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.models import AuthEmail
 from core.serializers import UserSerializer
 from core.services.create_user_service import create_user_service
 from core.services.get_tip_service import get_tip_service
@@ -10,7 +11,13 @@ from core.services.get_token_by_user import get_token_by_user_service
 from core.services.get_user_service import get_user_service
 from core.services.update_user_service import update_user_service
 from v0.errors.app_error import App_Error
-from core.auth_email import auth_emails
+
+
+def get_auth_email(email):
+    try:
+        return AuthEmail.objects.get(email=email)
+    except AuthEmail.DoesNotExist:
+        return False
 
 
 class IndexView(APIView):
@@ -21,8 +28,9 @@ class IndexView(APIView):
             if "id" in request.data:
                 request.data['id'] = None
 
-            if request.data["email"] not in auth_emails:
+            if not get_auth_email(request.data["email"]):
                 raise App_Error("Email não autorizado", 400)
+
             user_already_exists = get_user_service(
                 request.data)
 
