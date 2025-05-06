@@ -1,5 +1,5 @@
 from django.core.paginator import EmptyPage
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import Response
@@ -31,7 +31,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class PetRaces(ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = []
     serializer_class = PetRaceSerializer
     pagination_class = StandardResultsSetPagination
 
