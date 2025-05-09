@@ -85,7 +85,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     "v0.apps.V0Config",
     "pets.apps.PetsConfig",
-    "ai.apps.AiConfig"
+    "ai.apps.AiConfig",
+    "analytics.apps.AnalyticsConfig"
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,9 @@ DATABASES = {
         'PASSWORD': os.getenv("DATABASE_PASSWORD"),
         'HOST': os.getenv("DATABASE_HOST"),
         'PORT': 3306,
+        'TEST': {
+            'NAME': os.getenv("DATABASE_NAME"),
+        },
     }
 }
 

@@ -7,4 +7,5 @@ urlpatterns = [
     path("/ai", include("ai.urls")),
     path("/age-calculator", include("pets.age_calculator_urls")),
     path("/races", include("pets.races_urls")),
+    path("/analytics", include("analytics.urls")),
 ]
