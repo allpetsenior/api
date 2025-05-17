@@ -23,8 +23,6 @@ class ChatConsumer(JsonWebsocketConsumer):
             self.accept()
 
             finded_chat = get_or_create_user_chat({"user": user})
-            res = chatbot.send_message(messages=[
-                {"content": "OPEN-CONNECTION", "role": "user"}])
 
             if not "data" in finded_chat:
                 raise App_Error(
@@ -36,14 +34,14 @@ class ChatConsumer(JsonWebsocketConsumer):
                 reseted_chat = reset_chat_messages({"user": user})
                 serializer = ChatSerializer(reseted_chat["data"])
                 return self.send_json(content={
-                    "content": res["data"], "role": "assistant", "chat": serializer.data})
+                    "content": "Olá, sou o assistente virtual da AllPetSenior. Como posso ajudar?", "role": "assistant", "chat": serializer.data})
 
             # Check if the remaining messages are less than or equal to zero
             if finded_chat["data"].remaining_messages <= 0:
                 raise App_Error("Remaining messages is over", 400)
 
             self.send_json(content={
-                "content": res["data"], "role": "assistant", "remaining_messages": finded_chat["data"].remaining_messages})
+                "content": "Olá, sou o assistente virtual da AllPetSenior. Como posso ajudar?", "role": "assistant", "remaining_messages": finded_chat["data"].remaining_messages})
         except Exception as e:
             print("ERROR-CHAT_CONSUMER")
             traceback.print_exception(e)
