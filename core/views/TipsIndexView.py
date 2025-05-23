@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 
 from core.serializers import TipSerializer
 
-from ..services.get_tip_service import get_tip_service
+from ..services.get_tips_service import get_tips_service
 
 
 class TipsIndexView(APIView):
@@ -13,9 +13,9 @@ class TipsIndexView(APIView):
 
   def get(self, request: Request):
     try:
-      tip = get_tip_service({'id': request.user.tip_of_day.id})[
-          'data'].first()
+      tips = get_tips_service({'order__lte': request.user.tip_of_day.order})[
+          'data'].all()
 
-      return Response(TipSerializer(tip).data, 200)
+      return Response(TipSerializer(tips, many=True).data, 200)
     except Exception as e:
       return Response({"error": {"message": str(e)}}, 500)
