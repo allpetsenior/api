@@ -7,3 +7,9 @@ class Tip_Repository():
       return Tip.objects.filter(**data)
     except Tip.DoesNotExist:
       return None
+
+  def find_tips(self, data):
+    try:
+      return Tip.objects.filter(**data)
+    except Tip.DoesNotExist:
+      return None

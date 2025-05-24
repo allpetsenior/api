@@ -58,7 +58,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
 }
 
 # EMAIL
@@ -85,7 +85,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     "v0.apps.V0Config",
     "pets.apps.PetsConfig",
-    "ai.apps.AiConfig"
+    "ai.apps.AiConfig",
+    "analytics.apps.AnalyticsConfig"
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,9 @@ DATABASES = {
         'PASSWORD': os.getenv("DATABASE_PASSWORD"),
         'HOST': os.getenv("DATABASE_HOST"),
         'PORT': 3306,
+        'TEST': {
+            'NAME': os.getenv("DATABASE_NAME"),
+        },
     }
 }
 
@@ -179,5 +183,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [
-    ('0 1 */2 * *', 'core.crons.give_daily_tip')
+    ('0 1 * * *', 'core.crons.give_daily_tip')
 ]
