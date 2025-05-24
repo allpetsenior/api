@@ -37,14 +37,7 @@ class PetRaces(ListAPIView):
 
     def get_queryset(self):
         params = self.request.query_params
-        data = {}
         specie = params.get("specie")
         name = params.get("name")
 
-        if specie:
-            data["specie"] = specie
-
-        if name:
-            data["name__icontains"] = name
-
-        return PetRace.objects.filter(**data).order_by("name")
+        return PetRace.objects.filter(specie=specie, name__icontains=name).order_by("name") | PetRace.objects.filter(specie=specie, alias__icontains=name).order_by("name")
